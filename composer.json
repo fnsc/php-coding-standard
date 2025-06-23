@@ -1,0 +1,44 @@
+{
+    "name": "fnsc/coding-standard",
+    "description": "The coding standard for PHP projects",
+    "type": "phpcodesniffer-standard",
+    "license": "MIT",
+    "keywords": [
+        "php",
+        "coding",
+        "standard",
+        "cs",
+        "code",
+        "style",
+        "sniffer",
+        "rules",
+        "sniffs",
+        "checks"
+    ],
+    "authors": [
+        {
+            "name": "Gabriel Fonseca",
+            "email": "gabrieldfnsc@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "slevomat/coding-standard": "^8.19",
+        "squizlabs/php_codesniffer": "^3.13"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "test": "phpcs tests/input --report=summary --report-file=phpcs.log; diff tests/expected_report.txt phpcs.log",
+        "copy-input": "cp -r tests/input/. tests/fixed",
+        "apply-rules": [
+            "@copy-input",
+            "phpcbf tests/fixed; diff tests/fixed tests/expected"
+        ]
+    }
+}

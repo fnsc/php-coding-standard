@@ -1,0 +1,35 @@
+dist: xenial
+sudo: false
+language: php
+
+php:
+  - 7.2
+  - 7.3
+  - 7.4
+  - nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+  - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
+  - composer self-update
+
+install: travis_retry composer update --prefer-dist
+
+script:
+  - composer test
+
+stages:
+  - Test
+  - Apply fixes
+
+jobs:
+  allow_failures:
+    - php: 7.4
+    - php: nightly
+
+  include:
+    - stage: Apply fixes
+      script: composer apply-rules
